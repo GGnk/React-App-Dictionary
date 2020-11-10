@@ -1,12 +1,15 @@
 import React from "react";
 import "./assets/scss/style.scss";
-import {Header} from './components/header'
+import Header from './components/header'
+import Main from "./components/main";
 
-export const App = (props:any) => {
+const App: React.FC = () => {
   return (
-    <main>
+    <div className='wrapper'>
         <Header/>
-    </main>
+        <Main />
+    </div>
   );
 };
 
+export default App;
