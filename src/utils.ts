@@ -1,3 +1,26 @@
+import store from 'store';
+
+export const getWordsLocalStore = () => {
+    return store.get('words') || []
+}
+export const saveWordLocalStore = (word: { save: boolean}) => {
+    const words = store.get('words') || [];
+    words.unshift(word);
+    store.set('words', words);
+    console.log(words)
+}
+export const searchWordLocalStore = (id: number) => {
+    const words = store.get('words') || [];
+    return words.some((word: { id: number}) => word.id === id)
+}
+export const deletehWordLocalStore = (id: number, del?: any) => {
+    const words = store.get('words') || [];
+    const index = words.findIndex((word: { id: number}) => word.id === id)
+    words.splice(index, 1)
+    store.set('words', words);
+
+    if(del) del(getWordsLocalStore())
+}
 export const partOfSpeech = {
     n: 'noun',
     v: 'verb',

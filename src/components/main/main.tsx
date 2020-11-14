@@ -1,5 +1,5 @@
-import React, {useEffect, useReducer, useState} from "react";
-import  { Word } from "../../utils";
+import React, {useEffect, useState} from "react";
+import  { Word, searchWordLocalStore, getWordsLocalStore } from "../../utils";
 import './main.scss';
 import axios from "axios";
 import List from "./blocks/list"
@@ -13,8 +13,8 @@ export const Main = () => {
         if(search.length >= 2) {
             axios.get(`${process.env.SKYENG_API_URL}/search?search=${search}&page=1&pageSize=10`)
                 .then(r => {
-                    const res = r.data.map((item: { save: boolean, partOfSpeech: string, meanings: any }) => {
-                        item.save = false;
+                    const res = r.data.map((item: { id: number, save: boolean, partOfSpeech: string, meanings: any }) => {
+                        item.save = searchWordLocalStore(item.id);
                         for(const key in partOfSpeech ){
                             if(key === item.meanings[0].partOfSpeechCode) { // @ts-ignore
                                 item.partOfSpeech = partOfSpeech[key]
@@ -23,7 +23,6 @@ export const Main = () => {
                         return item;
                     });
                     setWordsList(res);
-                    console.log(res);
                 });
         }
     }, [search]);

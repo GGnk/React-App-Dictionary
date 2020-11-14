@@ -1,9 +1,9 @@
-import React, {useRef, useState} from "react";
-import { Word, detailsWord } from "../../../utils";
+import React, {useEffect, useRef, useState} from "react";
+import { Word, detailsWord, saveWordLocalStore, searchWordLocalStore, deletehWordLocalStore } from "../../../utils";
 import Modal from "./modal"
 import axios from "axios";
 
-const List = (props: { word: Word }) => {
+const List = (props: { word: Word, delLocal?: any }) => {
     const [word, setWord] = useState(props.word);
     const {transcription, previewUrl, soundUrl, translation} = word.meanings[0];
     const [showModal, setShowModal] = useState(false);
@@ -27,7 +27,6 @@ const List = (props: { word: Word }) => {
             console.log(word);
         }).catch(error => {
             setError(true)
-            console.log(error.response.data)
         });
 
         setShowModal(true)
@@ -48,6 +47,7 @@ const List = (props: { word: Word }) => {
                             <span key={item}>
                                 {word[detail.key][word[detail.key].length - 1] === item ? item : item+', '}
                             </span>
+
                         )
                     })
                     details.push(
@@ -91,6 +91,12 @@ const List = (props: { word: Word }) => {
         </Modal>
     ) : null;
 
+    const saveOrRemoveWordLocal = () => {
+        setWord({ ...word, save: !word.save})
+        if(!word.save) saveWordLocalStore({ ...word, save: true })
+        else deletehWordLocalStore(word.id, props.delLocal)
+    }
+
     return (
         <li>
             <div className='wrap' onClick={() => loadDescription(word.text)}>
@@ -99,10 +105,7 @@ const List = (props: { word: Word }) => {
                 <span>{transcription !== '' ? `[${transcription}]`: 'none'}</span>
                 <img src={previewUrl ? previewUrl : './img/no-img.jpg' } alt={word.text}/>
             </div>
-            <i onClick={() => {
-                setWord({ ...word, save: !word.save})
-                console.log(word.save)
-            }}
+            <i onClick={() => saveOrRemoveWordLocal()}
                className={ word.save ? 'favourite': 'not-favourite'}
             >
                 &#9734;
