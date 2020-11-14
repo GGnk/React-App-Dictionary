@@ -22,7 +22,8 @@
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
-  animation-duration: 0.4s
+  animation-duration: 0.4s;
+
 }
 
 @-webkit-keyframes animatetop {
@@ -55,9 +56,42 @@
   color: white;
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body {
+  padding: 2px 16px;
+  display: flex;
+   
+  ul {
+    list-style-type: none;
+    flex: 3;
+    li{
+      font-size: 18px;
+      margin-bottom: 10px;
+      .title {
+        font-size: 15px;
+        font-weight: bold;
+      }
+    }
+    
+  }
 
-.modal-footer {
-  padding: 5px 16px;
-  border-top: 1px solid gainsboro;
+  .files {
+    flex: 1;
+
+    img {
+      width: 100%;
+    }
+
+    button {
+      margin: 5px;
+      padding: 5px 10px;
+      border: none;
+      color: white;
+      background-color: #3c8e66;
+    }
+    
+  }
+  .error {
+    margin: 45px auto;
+    font-size: 20px;
+  }
 }

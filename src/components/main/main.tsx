@@ -1,5 +1,5 @@
 import React, {useEffect, useReducer, useState} from "react";
-import  { IWord } from "../../utils";
+import  { Word } from "../../utils";
 import './main.scss';
 import axios from "axios";
 import List from "./blocks/list"
@@ -11,7 +11,7 @@ export const Main = () => {
 
     useEffect(() => {
         if(search.length >= 2) {
-            axios.get(`https://dictionary.skyeng.ru/api/public/v1/words/search?search=${search}&page=1&pageSize=10`)
+            axios.get(`${process.env.SKYENG_API_URL}/search?search=${search}&page=1&pageSize=10`)
                 .then(r => {
                     const res = r.data.map((item: { save: boolean, partOfSpeech: string, meanings: any }) => {
                         item.save = false;
@@ -28,7 +28,7 @@ export const Main = () => {
         }
     }, [search]);
 
-    const list = wordsList.map((item:IWord) => {
+    const list = wordsList.map((item:Word) => {
         return <List key={item.text + item.id} word={item}/>
     });
 

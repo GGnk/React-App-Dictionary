@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import {useEffect} from "react";
 import { createPortal } from 'react-dom';
 
-const Modal = (props) => {
+const Modal = (props: any) => {
     const el = document.createElement('div');
-    const modal = document.getElementById('modal');
+    const modal = document.getElementById('modal') as HTMLHtmlElement;
 
-    useEffect(() => {
+    useEffect(():any => {
         modal.appendChild(el);
         return () => modal.removeChild(el);
     });

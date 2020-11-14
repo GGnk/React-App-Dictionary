@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const devServer = {
     contentBase: path.join(__dirname, 'dist'),
@@ -53,6 +54,7 @@ module.exports = (mode) => {
             ]
           },
       ),
+      new Dotenv()
     ],
   }
 };
