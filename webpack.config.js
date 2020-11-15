@@ -1,20 +1,24 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const devServer = {
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: path.join(__dirname, 'dist'),
     open: true,
     historyApiFallback: true
 };
 module.exports = (mode) => {
+  console.info('Run mode: ', mode);
   return {
+    mode: mode,
     entry: './src/index.tsx',
     devtool: mode === 'production' ? 'source-map' : 'eval-source-map',
-    devServer: mode !== 'production' ? devServer : {},
+    devServer: mode === 'development' ? devServer : {},
     output: {
       filename: mode === 'production' ? '[name].js': '[name].bundle.js' ,
       path: path.resolve(__dirname, 'dist'),
-      publicPath: './',
+      publicPath: mode === 'development' ? '/' : './',
     },
     module: {
       rules: [
@@ -42,8 +46,15 @@ module.exports = (mode) => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './public/index.html',
-        title: 'Development',
       }),
+      new CopyWebpackPlugin(
+          {
+            patterns: [
+              { from: path.resolve(__dirname, 'src/assets/img'), to: `img` }
+            ]
+          },
+      ),
+      new Dotenv()
     ],
   }
 };

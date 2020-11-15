@@ -1,14 +1,14 @@
 import React from "react";
-import './header.scss';
+import { Link } from "react-router-dom";
 
 export const Header = () => {
     return (
         <header className='header'>
             <div className='left-text'>
-                <h1>Word Keeper</h1>
+                <Link to='/'><h1>Word Keeper</h1></Link>
             </div>
             <div className='right-text'>
-                <h1>Starred Words</h1>
+                <Link to='/favorites' >Starred Words</Link>
             </div>
         </header>
     );

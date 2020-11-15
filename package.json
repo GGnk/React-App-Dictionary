@@ -1,5 +1,5 @@
 {
-  "name": "task_blog",
+  "name": "react_app_aictionary",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,20 +9,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GGnk/task_blog.git"
+    "url": "https://github.com/GGnk/React-App-Dictionary.git"
   },
   "author": "Nurlan K. (GGNK)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/GGnk/task_blog/issues"
+    "url": "https://github.com/GGnk/React-App-Dictionary/issues"
   },
-  "homepage": "https://github.com/GGnk/task_blog#readme",
+  "homepage": "https://github.com/GGnk/React-App-Dictionary#readme",
   "devDependencies": {
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.6",
+    "@types/store": "^2.0.2",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",
+    "copy-webpack-plugin": "^6.3.0",
     "css-loader": "^4.3.0",
+    "dotenv-webpack": "^5.1.0",
     "eslint": "^7.9.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
@@ -53,8 +57,11 @@
     ]
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-icons": "^3.11.0"
+    "react-icons": "^3.11.0",
+    "react-router-dom": "^5.2.0",
+    "store": "^2.0.12"
   }
 }
