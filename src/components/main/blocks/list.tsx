@@ -1,10 +1,15 @@
-import React, {useEffect, useRef, useState} from "react";
-import { Word, detailsWord, saveWordLocalStore, searchWordLocalStore, deletehWordLocalStore } from "../../../utils";
+import React, {useRef, useState} from "react";
+import { Word, detailsWord, saveWordLocalStore, deletehWordLocalStore } from "../../../utils";
 import Modal from "./modal"
 import axios from "axios";
 
-const List = (props: { word: Word, delLocal?: any }) => {
-    const [word, setWord] = useState(props.word);
+type IProps = {
+    _word: Word
+    delLocal?: CallableFunction
+}
+
+const List: React.FC<IProps> = ({ _word, delLocal }) => {
+    const [word, setWord] = useState(_word);
     const {transcription, previewUrl, soundUrl, translation} = word.meanings[0];
     const [showModal, setShowModal] = useState(false);
     const [error, setError] = useState(false);
@@ -78,9 +83,9 @@ const List = (props: { word: Word, delLocal?: any }) => {
                                     {listDetailsWord}
                                 </ul>
                                 <div className='files'>
-                                    <img src={previewUrl ? previewUrl : './img/no-img.jpg'} alt={word.text} />
+                                    <img src={previewUrl ? 'https:'+previewUrl : './img/no-img.jpg'} alt={word.text} />
                                     <span>ru: {translation.text}</span>
-                                    <audio ref={audio} src={soundUrl}></audio>
+                                    <audio ref={audio} src={soundUrl}></audio><br/>
                                     <button onClick={playAudio}> Play sound </button>
                                 </div>
                             </>
@@ -94,7 +99,7 @@ const List = (props: { word: Word, delLocal?: any }) => {
     const saveOrRemoveWordLocal = () => {
         setWord({ ...word, save: !word.save})
         if(!word.save) saveWordLocalStore({ ...word, save: true })
-        else deletehWordLocalStore(word.id, props.delLocal)
+        else deletehWordLocalStore(word.id, delLocal)
     }
 
     return (
@@ -103,7 +108,7 @@ const List = (props: { word: Word, delLocal?: any }) => {
                 <h3>{word.text}</h3>
                 <span>{word.partOfSpeech !== '' ? word.partOfSpeech: 'none'}</span>
                 <span>{transcription !== '' ? `[${transcription}]`: 'none'}</span>
-                <img src={previewUrl ? previewUrl : './img/no-img.jpg' } alt={word.text}/>
+                <img src={previewUrl ? 'https:'+previewUrl : './img/no-img.jpg' } alt={word.text}/>
             </div>
             <i onClick={() => saveOrRemoveWordLocal()}
                className={ word.save ? 'favourite': 'not-favourite'}

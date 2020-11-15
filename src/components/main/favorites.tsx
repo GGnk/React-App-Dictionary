@@ -1,12 +1,9 @@
 import React, {useEffect, useState} from "react";
 import  { Word, getWordsLocalStore } from "../../utils";
-import './main.scss';
-import axios from "axios";
 import List from "./blocks/list"
-import  { partOfSpeech } from "../../utils";
+import Search from "./blocks/search"
 
 const Favorites = () => {
-    const [search, setSearch] = useState('');
     const [wordsList, setWordsList] = useState([]);
 
     useEffect(() => {
@@ -14,18 +11,18 @@ const Favorites = () => {
     }, []);
 
     const list = wordsList.map((item:Word) => {
-        return <List key={item.text + 'favorites'} delLocal={setWordsList} word={item}/>
+        return <List key={item.text + 'favorites'} delLocal={setWordsList} _word={item}/>
     });
 
     return (
         <main className='main'>
-            <aside className='left--aside'>
-                <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder='search...'/>
-            </aside>
+            <Search resultCallBack={setWordsList} localSearch={true} />
             <div className='content'>
-               <ul className='content--list'>
-                   {list}
-               </ul>
+                {
+                    wordsList.length > 0 ? <ul className='content--list'>
+                        {list}
+                    </ul>: 'No added words found'
+                }
             </div>
         </main>
     );

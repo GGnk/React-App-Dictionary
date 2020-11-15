@@ -7,21 +7,29 @@ export const saveWordLocalStore = (word: { save: boolean}) => {
     const words = store.get('words') || [];
     words.unshift(word);
     store.set('words', words);
-    console.log(words)
 }
 export const searchWordLocalStore = (id: number) => {
     const words = store.get('words') || [];
     return words.some((word: { id: number}) => word.id === id)
 }
-export const deletehWordLocalStore = (id: number, del?: any) => {
+export const deletehWordLocalStore = (id: number, callback?: CallableFunction) => {
     const words = store.get('words') || [];
     const index = words.findIndex((word: { id: number}) => word.id === id)
     words.splice(index, 1)
     store.set('words', words);
 
-    if(del) del(getWordsLocalStore())
+    if(callback) callback(getWordsLocalStore())
 }
-export const partOfSpeech = {
+
+export const searchWordsLocalStore = (search: string) => {
+    const words = store.get('words') || [];
+    return words.filter((word: { text : string})=> {
+        const lc = word.text.toLowerCase();
+        const filter = search.toLowerCase();
+        return lc.includes(filter);
+    })
+}
+export const partOfSpeechCodeList = {
     n: 'noun',
     v: 'verb',
     j: 'adjective',

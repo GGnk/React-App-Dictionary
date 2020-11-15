@@ -1,45 +1,25 @@
-import React, {useEffect, useState} from "react";
-import  { Word, searchWordLocalStore, getWordsLocalStore } from "../../utils";
-import './main.scss';
-import axios from "axios";
+import React, {useState} from "react";
+import  { Word } from "../../utils";
 import List from "./blocks/list"
-import  { partOfSpeech } from "../../utils";
+import Search from "./blocks/search"
 
 export const Main = () => {
-    const [search, setSearch] = useState('');
     const [wordsList, setWordsList] = useState([]);
 
-    useEffect(() => {
-        if(search.length >= 2) {
-            axios.get(`${process.env.SKYENG_API_URL}/search?search=${search}&page=1&pageSize=10`)
-                .then(r => {
-                    const res = r.data.map((item: { id: number, save: boolean, partOfSpeech: string, meanings: any }) => {
-                        item.save = searchWordLocalStore(item.id);
-                        for(const key in partOfSpeech ){
-                            if(key === item.meanings[0].partOfSpeechCode) { // @ts-ignore
-                                item.partOfSpeech = partOfSpeech[key]
-                            }
-                        }
-                        return item;
-                    });
-                    setWordsList(res);
-                });
-        }
-    }, [search]);
-
     const list = wordsList.map((item:Word) => {
-        return <List key={item.text + item.id} word={item}/>
+        return <List key={item.text + item.id} _word={item}/>
     });
 
     return (
         <main className='main'>
-            <aside className='left--aside'>
-                <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder='search...'/>
-            </aside>
+            <Search resultCallBack={setWordsList} />
             <div className='content'>
-               <ul className='content--list'>
-                   {list}
-               </ul>
+                {
+                    wordsList.length > 0 ? <ul className='content--list'>
+                        {list}
+                    </ul>: 'Start typing an English word and the search will start automatically after the 2nd character. Search in other languages is not available.'
+                }
+               
             </div>
         </main>
     );
